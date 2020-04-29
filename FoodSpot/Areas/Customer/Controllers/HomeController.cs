@@ -56,65 +56,65 @@ namespace FoodSpot.Controllers
             return View(model);
         }
 
-        //[Authorize]
-        //public async Task<IActionResult> Details(int id)
-        //{
-        //    var menuItemFromDb = await _db.MenuItem.Include(m => m.Category).Include(m => m.SubCategory).Where(m => m.Id == id).FirstOrDefaultAsync();
+        [Authorize]
+        public async Task<IActionResult> Details(int id)
+        {
+            var menuItemFromDb = await _db.MenuItem.Include(m => m.Category).Include(m => m.SubCategory).Where(m => m.Id == id).FirstOrDefaultAsync();
 
-        //    Cart cartObj = new Cart()
-        //    {
-        //        MenuItem = menuItemFromDb,
-        //        MenuItemId = menuItemFromDb.Id
-        //    };
+            Cart cartObj = new Cart()
+            {
+                MenuItem = menuItemFromDb,
+                MenuItemId = menuItemFromDb.Id
+            };
 
-        //    return View(cartObj);
-        //}
+            return View(cartObj);
+        }
 
 
-        //[Authorize]
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Details(Cart CartObject)
-        //{
-        //    CartObject.Id = 0;
-        //    if (ModelState.IsValid)
-        //    {
-        //        var claimsIdentity = (ClaimsIdentity)this.User.Identity;
-        //        var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
-        //        CartObject.ApplicationUserId = claim.Value;
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Details(Cart CartObject)
+        {
+            CartObject.Id = 0;
+            if (ModelState.IsValid)
+            {
+                var claimsIdentity = (ClaimsIdentity)this.User.Identity;
+                var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+                CartObject.ApplicationUserId = claim.Value;
 
-        //        Cart cartFromDb = await _db.Cart.Where(c => c.ApplicationUserId == CartObject.ApplicationUserId
-        //                                        && c.MenuItemId == CartObject.MenuItemId).FirstOrDefaultAsync();
+                Cart cartFromDb = await _db.Cart.Where(c => c.ApplicationUserId == CartObject.ApplicationUserId
+                                                && c.MenuItemId == CartObject.MenuItemId).FirstOrDefaultAsync();
 
-        //        if (cartFromDb == null)
-        //        {
-        //            await _db.Cart.AddAsync(CartObject);
-        //        }
-        //        else
-        //        {
-        //            cartFromDb.Count = cartFromDb.Count + CartObject.Count;
-        //        }
-        //        await _db.SaveChangesAsync();
+                if (cartFromDb == null)
+                {
+                    await _db.Cart.AddAsync(CartObject);
+                }
+                else
+                {
+                    cartFromDb.Count = cartFromDb.Count + CartObject.Count;
+                }
+                await _db.SaveChangesAsync();
 
-        //        var count = _db.Cart.Where(c => c.ApplicationUserId == CartObject.ApplicationUserId).ToList().Count();
-        //        HttpContext.Session.SetInt32(StaticDetails.ssShoppingCartCount, count);
+                var count = _db.Cart.Where(c => c.ApplicationUserId == CartObject.ApplicationUserId).ToList().Count();
+                HttpContext.Session.SetInt32(StaticDetails.ssShoppingCartCount, count);
 
-        //        return RedirectToAction("Index");
-        //    }
-        //    else
-        //    {
+                return RedirectToAction("Index");
+            }
+            else
+            {
 
-        //        var menuItemFromDb = await _db.MenuItem.Include(m => m.Category).Include(m => m.SubCategory).Where(m => m.Id == CartObject.MenuItemId).FirstOrDefaultAsync();
+                var menuItemFromDb = await _db.MenuItem.Include(m => m.Category).Include(m => m.SubCategory).Where(m => m.Id == CartObject.MenuItemId).FirstOrDefaultAsync();
 
-        //        Cart cartObj = new Cart()
-        //        {
-        //            MenuItem = menuItemFromDb,
-        //            MenuItemId = menuItemFromDb.Id
-        //        };
+                Cart cartObj = new Cart()
+                {
+                    MenuItem = menuItemFromDb,
+                    MenuItemId = menuItemFromDb.Id
+                };
 
-        //        return View(cartObj);
-        //    }
-        //}
+                return View(cartObj);
+            }
+        }
 
         public IActionResult Privacy()
         {

@@ -72,11 +72,25 @@
                             </li>
                         }
 
+                        @if (HttpContextAccessor.HttpContext.Session.GetInt32(@StaticDetails.ssShoppingCartCount) != null)
+                        {
+                            <li style="color:white">
+                                <a asp-area="Customer" asp-controller="Cart" asp-action="Index" class="nav-link">
+                                    @{
+                                        var count = HttpContextAccessor.HttpContext.Session.GetInt32(@StaticDetails.ssShoppingCartCount);
+                                    }
+                                    <i class="fas fa-shopping-cart"></i> &nbsp; (@count)
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
                             <li style="color:white">
                                 <a href="#" class="nav-link">
                                     <i class="fas fa-shopping-cart"></i> &nbsp; (0)
                                 </a>
                             </li>
+                        }
                     </ul>
                 </div>
             </div>

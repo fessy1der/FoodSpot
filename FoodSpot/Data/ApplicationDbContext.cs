@@ -19,5 +19,8 @@ namespace FoodSpot.Data
         public DbSet<MenuItem> MenuItem { get; set; }
         public DbSet<Coupon> Coupon { get; set; }
         public DbSet<AppUser> AppUser { get; set; }
+        public DbSet<Cart> Cart { get; set; }
+        public DbSet<Order> Order { get; set; }
+        public DbSet<OrderDetails> OrderDetails { get; set; }
     }
 }
